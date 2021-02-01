@@ -1,9 +1,0 @@
-.cabecalho {
-    display: flex;
-    justify-content: space-between;
-}
-
-.logout{
-    border: none;
-    max-height: 50px;
-}
