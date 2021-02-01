@@ -1,8 +1,8 @@
 export const INITIAL_STATE =
 {
     authorized: false,
-    user: {},
-    err: {}
+    user: undefined,
+    err: undefined
 }
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -10,7 +10,8 @@ export default function auth(state = INITIAL_STATE, action) {
         return {
             ...state,
             authorized: action.auth,
-            user: action.user
+            user: action.user,
+            err: action.err
         }
     }
     if (action.type === 'LOGOUT_AUTH') {

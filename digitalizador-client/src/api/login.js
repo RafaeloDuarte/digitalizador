@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { saveToken, deleteToken, getToken } from "../util/localStorage";
-import { toggleAuth, errorDispatch } from "../store/actions/auth";
+import { toggleAuth, errorDispatch, logoutAuth } from "../store/actions/auth";
 import { api } from "../config";
 
 export async function handleLogin(email, password, dispatch) {
@@ -8,16 +8,16 @@ export async function handleLogin(email, password, dispatch) {
         email, password
     }).then(data => {
         saveToken(data.data.usuario.token)
-        const user = data.data.user
+        const user = data.data.usuario
         dispatch(toggleAuth(true, user))
     }).catch(err => {
-        dispatch(toggleAuth(false, {}))
+        dispatch(toggleAuth(false, {}, err))
     })
 }
 
 export function handleLogout(dispatch) {
     deleteToken()
-    dispatch(handleLogout())
+    dispatch(logoutAuth())
 }
 
 export function getLogin(dispatch) {
@@ -41,11 +41,14 @@ export function signIn(user, dispatch) {
 
     const { name, login, password } = user
 
-    axios.post(`${api}register`, { name, login, password }).then(data => {
+    axios.post(`${api}usuarios/register`, { nome: name, email: login, password }).then(data => {
 
-        const user = data.data.user
-        saveToken(data.data.token)
+        const user = data.data.usuario
+        saveToken(data.data.usuario.token)
         dispatch(toggleAuth(true, user))
 
-    }).catch(err => dispatch(errorDispatch(err)))
+    }).catch(err => {
+        console.log(err)
+        dispatch(toggleAuth(false, undefined, err))
+    })
 }

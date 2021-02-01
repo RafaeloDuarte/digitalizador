@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from 'react-redux'
 import Login from "./components/Login";
@@ -9,10 +9,6 @@ import noAuth from "./components/HOC/NoAuth";
 import SignIn from "./components/SignIn";
 
 function App() {
-
-  useEffect(() => {
-    return
-  }, [])
 
   return (
     <Provider store={store}>

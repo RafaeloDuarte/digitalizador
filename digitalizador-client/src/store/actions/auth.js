@@ -1,8 +1,9 @@
-export function toggleAuth(auth, user) {
+export function toggleAuth(auth, user, err) {
     return {
         type: 'TOGGLE_AUTH',
         auth,
-        user
+        user,
+        err
     }
 }
 

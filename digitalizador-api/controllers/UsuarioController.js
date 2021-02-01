@@ -29,9 +29,9 @@ class UsuarioController {
 
     // POST /registrar
     store(req, res, next) {
-        const { nome, email, password, loja } = req.body;
+        const { nome, email, password } = req.body;
 
-        const usuario = new Usuario({ nome, email, loja });
+        const usuario = new Usuario({ nome, email });
         usuario.setSenha(password);
 
         usuario.save()

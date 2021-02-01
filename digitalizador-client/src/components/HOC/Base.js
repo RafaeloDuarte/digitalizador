@@ -1,24 +1,38 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useHistory } from "react-router"
+import React from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/auth';
+import { getLogin } from "../../api/login";
 
-const base = Component => props => {
+const base = Component => {
+  class ComponentBase extends React.Component {
 
-  const history = useHistory()
-  const auth = useSelector(state => state.authorized)
+    componentDidMount() {
+      getLogin();
+      const { authorized, history, user } = this.props;
+      if (!authorized && !user) history.replace("/login");
+    }
 
-  useEffect(() => {
-    if (!auth)
-      history.push("/login")
-    else
-      history.push('/')
-  }, [auth, history])
+    componentDidUpdate(prevProps) {
+      const { history } = this.props;
+      if (!this.props.authorized || !this.props.user) {
+        history.replace("/login");
+      }
+    }
 
-  return (
-    <>
-      <Component />
-    </>
-  );
+    render() {
+      return (
+        <div>
+          <Component {...this.props} />
+        </div>
+      )
+    }
+  }
+
+  const mapStateToProps = state => ({
+    authorized: state.authorized,
+    user: state.user
+  });
+  return connect(mapStateToProps, actions)(ComponentBase);
 }
 
-export default base
+export default base;

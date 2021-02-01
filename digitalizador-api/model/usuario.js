@@ -18,11 +18,6 @@ const UsuarioSchema = new mongoose.Schema({
         index: true,
         match: [/\S+@\S+\.\S+/, 'é inválido.']
     },
-    transportadora: {
-        type: Schema.Types.ObjectId,
-        ref: "Transportadora",
-        required: [true,"não pode ficar vazia."]
-    },
     permissao: {
         type: Array,
         default: ["cliente"]
@@ -68,7 +63,6 @@ UsuarioSchema.methods.enviarAuthJSON = function(){
         _id: this._id,
         nome: this.nome,
         email: this.email,
-        transportadora: this.transportadora,
         role: this.permissao,
         token: this.gerarToken()
     };
