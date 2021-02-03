@@ -19,3 +19,24 @@ export function errorDispatch(err) {
         err
     }
 }
+
+export function toggleInitialDate(initialDate){
+    return {
+        type: 'INITIAL_DATE',
+        initialDate
+    }
+}
+
+export function toggleFinalDate(finalDate){
+    return {
+        type: 'FINAL_DATE',
+        finalDate
+    }
+}
+
+export function toggleData(data){
+    return {
+        type: 'TOGGLE_DATA',
+        data
+    }
+}

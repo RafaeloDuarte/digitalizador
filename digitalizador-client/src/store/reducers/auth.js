@@ -2,7 +2,10 @@ export const INITIAL_STATE =
 {
     authorized: false,
     user: undefined,
-    err: undefined
+    err: undefined,
+    initialDate: undefined,
+    finalDate: undefined,
+    data: undefined
 }
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -25,6 +28,24 @@ export default function auth(state = INITIAL_STATE, action) {
         return {
             ...state,
             error: action.err
+        }
+    }
+    if (action.type === 'INITIAL_DATE') {
+        return {
+            ...state,
+            initialDate: action.initialDate
+        }
+    }
+    if (action.type === 'FINAL_DATE') {
+        return {
+            ...state,
+            finalDate: action.finalDate
+        }
+    }
+    if (action.type === 'TOGGLE_DATA') {
+        return {
+            ...state,
+            data: action.data
         }
     }
 

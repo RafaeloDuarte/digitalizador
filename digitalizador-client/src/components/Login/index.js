@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Alert from '@material-ui/lab/Alert';
@@ -20,14 +21,14 @@ export default function Login() {
         e.preventDefault()
         handleLogin(email, password, dispatch)
       }}>
-        <center><h1>Controle Digitalizador</h1></center>
-        <h3>Login</h3>
+        <center><h3>Controle Digitalizador</h3></center>
+        <h5>Login</h5>
         {err && <Alert severity="error">{err.response.data.errors}</Alert>}
         <TextField id="email" label="Email" onChange={e => setEmail(e.target.value)} fullWidth required />
         <TextField id="password" type='password' label="Senha" onChange={e => setPassword(e.target.value)} fullWidth required />
         <div className='formulario-botoes'>
           <Button type="submit">Entrar</Button>
-          <a href="/cadastro-usuario">Registrar novo usuário</a>
+          <Link to="/cadastro-usuario">Registrar novo usuário</Link>
         </div>
       </form>
     </div>

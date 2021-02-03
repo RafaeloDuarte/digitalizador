@@ -33,7 +33,7 @@ export function getLogin(dispatch) {
         dispatch(toggleAuth(true, user))
 
     }).catch(err => {
-
+       // dispatch(toggleAuth(false, null, err))
     })
 }
 

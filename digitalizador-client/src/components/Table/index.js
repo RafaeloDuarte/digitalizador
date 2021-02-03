@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from "react-redux";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,6 +13,7 @@ import "./style.css";
 import axios from "axios";
 import { api } from "../../config";
 import { formatDate } from "../../util";
+import { getData } from '../../api/data';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -42,29 +44,47 @@ export default function CustomizedTables() {
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [digitalizacoes, setDigitalizacoes] = useState()
-    const [transportadoras, setTransportadoras] = useState()
-    const [digitalizacoes2, setDigitalizacoes2] = useState()
+    const dispatch = useDispatch()
+    const { data } = useSelector(state => state)
 
     useEffect(() => {
-        axios.get(`${api}digitalizacoes`).then(data => {
-            let d = data.data.digitalizacaos
-            setDigitalizacoes(d)
-        })
-        axios.get(`${api}transportadoras`).then(trans => {
-            setTransportadoras(trans.data.transportadoras)
-        })
 
-        if (digitalizacoes && transportadoras) {
-            setDigitalizacoes2(digitalizacoes.map(digi => {
-                transportadoras.map(trans => {
-                    if (trans._id === digi.transportadora)
-                        digi.nome_transportadora = trans.nome
-                })
-                return digi
-            }))
-        }
-    }, [digitalizacoes])
+        // if (initialDate && finalDate && digitalizacoes2) {
+        //     const novasDigitalizacoes = digitalizacoes2.filter(digitalizacao => {
+        //         const initDate = new Date(initialDate)
+        //         const finaleDate = new Date(finalDate)
+
+        //         const digitalizationDate = new Date(digitalizacao.createdAt
+        //             .substring(0, digitalizacao
+        //                 .createdAt.indexOf('T')))
+        //         if (digitalizationDate.getTime() > initDate.getTime()
+        //             && digitalizationDate.getTime() < finaleDate.getTime())
+        //             return digitalizacao
+        //     })
+        //     setDigitalizacoes2(novasDigitalizacoes)
+        // } else {
+
+        //     axios.get(`${api}digitalizacoes`).then(data => {
+        //         let d = data.data.digitalizacaos
+        //         setDigitalizacoes(d)
+        //     })
+        //     axios.get(`${api}transportadoras`).then(trans => {
+        //         setTransportadoras(trans.data.transportadoras)
+        //     })
+
+        //     if (digitalizacoes && transportadoras) {
+        //         setDigitalizacoes2(digitalizacoes.map(digi => {
+        //             transportadoras.map(trans => {
+        //                 if (trans._id === digi.transportadora)
+        //                     digi.nome_transportadora = trans.nome
+        //             })
+        //             return digi
+        //         }))
+        //     }
+        // }
+
+        getData(dispatch)
+    }, [data])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -87,9 +107,9 @@ export default function CustomizedTables() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {digitalizacoes2 && digitalizacoes2.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        {data && data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => (
-                                <StyledTableRow key={row.name}>
+                                <StyledTableRow key={row._id}>
                                     <StyledTableCell component="th" scope="row">
                                         {row.nome_transportadora}
                                     </StyledTableCell>
@@ -103,7 +123,7 @@ export default function CustomizedTables() {
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={digitalizacoes2 ? digitalizacoes2.length : 0}
+                count={data ? data.length : 0}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

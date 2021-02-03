@@ -5,5 +5,6 @@
 
 .logout{
     border: none;
-    max-height: 50px;
+    border-left: -50px;
+    max-height: 100px;
 }
