@@ -1,10 +1,9 @@
 import React from 'react'
+import { useDispatch } from "react-redux";
 import './style.css'
 import { handleLogout } from '../../api/login'
-import { useDispatch, useSelector } from "react-redux";
-import Table from "../Table";
-import DatePick from '../DatePick';
-import { formatDate } from '../../util';
+import Table from "../Table"
+import DatePick from '../DatePick'
 
 export default function Home() {
 
